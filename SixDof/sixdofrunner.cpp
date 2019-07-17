@@ -96,7 +96,7 @@ void main() {
 	//--- File import ------------------------------------------
 	std::ofstream fileID_05("Flightcondition.txt");
 	
-
+	fileID_05.close();
 
 	ofs.close();
 }
