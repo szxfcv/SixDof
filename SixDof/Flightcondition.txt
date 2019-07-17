@@ -1,0 +1,2 @@
+No,trimflag,trimspeed,altitude,gamma,phi_trim,psi_trim,pulluprate,bankrate,turnrate,Ct_flag,Dh_flag,Dr_flag,Da_flag,Dout_name,options_Ct,options_Dh,options_Dr,options_Da,Gust_flag,ug,vg,wg
+1,5,350,0,0,0,0,0,0,10,0,0,0,0,Steady_turn_01,,,,,off,0,0,0

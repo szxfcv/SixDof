@@ -92,5 +92,11 @@ void main() {
 	std::string Block2("run"); // Trim cal.
 	std::string Block3("run"); // Time response simulation
 	// ---------------------------------------------------------
+
+	//--- File import ------------------------------------------
+	std::ofstream fileID_05("Flightcondition.txt");
+	
+
+
 	ofs.close();
 }
