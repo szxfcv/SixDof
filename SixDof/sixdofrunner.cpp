@@ -6,7 +6,7 @@
 //*************************************************************************
 //
 // Revision record : 2019 / 06 / 14 H.A(Generated)
-//				   : 2019 / 06 /    W.M(Convert)
+//				   : 2019 / 07 /    W.M(Convert)
 //
 //*************************************************************************
 
@@ -18,8 +18,8 @@
 void main() {
 	std::ofstream ofs("sixdoflog.txt");
 
-	//****************** Global parameters*******************
-	//==================== Units converter====================
+	//****************** Global parameters *********************
+	//==================== Units converter =====================
 	double pi = 4 * atan(1.0);
 	double DG2RD = pi / 180;		// deg ÅÀ rad
 	double RD2DG = 180 / pi;		// rad ÅÀ deg
@@ -55,8 +55,42 @@ void main() {
 	double t_simu = 90;				// Maximum of simulation time
 	//= ============== Program Entry Point Flags ===============
 	//global Block0 Block1 Block2 Block3
-	// ********************************************************
+	// *********************************************************
+	// Disp program title
+	std::cout << "*******************************************************************" << std::endl;
+	std::cout << "                                                                   " << std::endl;
+	std::cout << "   Six-DOF Aircraft simulation program                             " << std::endl;
+	std::cout << "                                                                   " << std::endl;
+	std::cout << "*******************************************************************" << std::endl;
+	std::cout << "                                                                   " << std::endl;
+	std::cout << " <Status>                                                          " << std::endl;
+	std::cout << "  2019/05/30 Add trim flight simulation logics (A. H)              " << std::endl;
+	std::cout << "  2019/06/04 Add time response analysis logic  (A. H)              " << std::endl;
+	std::cout << "  2019/06/26 Add batch simulation program      (A. H)              " << std::endl;
+	std::cout << "  2019/07/04 Add Steady wind enviroment logic  (A. H)              " << std::endl;
+	std::cout << "  2019/07/16~Convert Matlab to C++             (M. W)              " << std::endl;
+	std::cout << "                                                                   " << std::endl;
+	std::cout << "*******************************************************************" << std::endl;
 
+	//--- Simulation flags ------------------------------------
+	//Computation mode flag
+	std::string singlemode("off");
+	std::string batchmode("run");
 
+	std::cout << "singlemode is " << singlemode << std::endl;
+	std::cout << "batchmode is " << batchmode << std::endl;
+
+	//--- Phase flag ------------------------------------------
+	// --------------------------------------------------------
+	//
+	// Default ÅÀÅ@'run '
+	// (If you don't need of them, change 'run' to 'off')
+	//
+	//---------------------------------------------------------
+	std::string Block0("run"); // Mode selector
+	std::string Block1("run"); // Get simulation parameters
+	std::string Block2("run"); // Trim cal.
+	std::string Block3("run"); // Time response simulation
+	// ---------------------------------------------------------
 	ofs.close();
 }
