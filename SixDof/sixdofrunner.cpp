@@ -14,8 +14,32 @@
 #include <fstream>
 #include <cmath>
 #include <string>
+#include <vector>
 
-void main() {
+
+std::vector<std::string> split(std::string str, char del) {
+	int first = 0;
+	int last = str.find_first_of(del);
+
+	std::vector<std::string> result;
+
+	while (first < str.size()) {
+		std::string subStr(str, first, last - first);
+
+		result.push_back(subStr);
+
+		first = last + 1;
+		last = str.find_first_of(del, first);
+
+		if (last == std::string::npos) {
+			last = str.size();
+		}
+	}
+	return result;
+}
+
+
+int main() {
 	std::ofstream ofs("sixdoflog.txt");
 
 	//****************** Global parameters *********************
@@ -87,16 +111,58 @@ void main() {
 	// (If you don't need of them, change 'run' to 'off')
 	//
 	//---------------------------------------------------------
-	std::string Block0("run"); // Mode selector
-	std::string Block1("run"); // Get simulation parameters
-	std::string Block2("run"); // Trim cal.
-	std::string Block3("run"); // Time response simulation
+	std::string Block0("run");		// Mode selector
+	std::string Block1("run");		// Get simulation parameters
+	std::string Block2("run");		// Trim cal.
+	std::string Block3("run");		// Time response simulation
 	// ---------------------------------------------------------
 
 	//--- File import ------------------------------------------
-	std::ofstream fileID_05("Flightcondition.txt");
-	
+	std::ifstream fileID_05("Flightcondition.txt");
+	const int buf_size = 211;
+	char str[buf_size];
+	if(fileID_05.fail()){
+		std::cerr << "Failed to open file." << std::endl;
+		return -1;
+	}
+
+	fileID_05.getline(str,buf_size);
+	std::string FCHead = str;
+	std::string f_condition_mat[100];
+	int case_num = 0;				// Number of simulation case
+	while (fileID_05.getline(str, buf_size)) {
+		f_condition_mat[case_num] = str;
+		case_num++;
+	}
 	fileID_05.close();
+	std::cout << "FCHead is " << FCHead << std::endl;
+	std::cout << "case_num is " << case_num << std::endl;
+//std::cout << "f_condition_mat is " << f_condition_mat[0] << std::endl;
+	//Restab_n = zeros(case_num, 17);
+	std::vector<std::vector<int> > Restab_n(case_num, std::vector<int>(17,0));
+
+	// 入力 (2重ループを用いる)
+	for (int i = 0; i < case_num; i++) {
+		for (int j = 0; j < 17; j++) {
+			std::cout << Restab_n.at(i).at(j);
+		}
+		std::cout << std::endl;
+	}
+//graveyard
+/*		char del = ',';
+		for (const auto substr : split(f_condition_mat[i], del)) {
+			std::cout << "substr is " << substr << std::endl;
+			Restab_n.at(i).at(j) = std::stoi(substr);
+			std::cout << "j is " << j << std::endl;
+			j++;
+		}
+		//Restab_n.at(i).at(j) = std::stoi(split(f_condition_mat[i], del)[i]);
+		//Restab_n.at(i) = split(f_condition_mat[i], del);
+		//std::cout << Restab_n.at(i).at(j) << " ";
+		std::cout << std::endl;
+	}*/
+	
 
 	ofs.close();
+	return 0;
 }
