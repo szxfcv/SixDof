@@ -15,6 +15,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <map>
 
 
 std::vector<std::string> split(std::string str, char del) {
@@ -98,8 +99,8 @@ int main() {
 
 	//--- Simulation flags ------------------------------------
 	//Computation mode flag
-	std::string singlemode("off");
-	std::string batchmode("run");
+	std::string singlemode("run");
+	std::string batchmode("off");
 
 	std::cout << "singlemode is " << singlemode << std::endl;
 	std::cout << "batchmode is " << batchmode << std::endl;
@@ -137,7 +138,7 @@ int main() {
 	fileID_05.close();
 	std::cout << "FCHead is " << FCHead << std::endl;
 	std::cout << "case_num is " << case_num << std::endl;
-//std::cout << "f_condition_mat is " << f_condition_mat[0] << std::endl;
+	std::cout << "f_condition_mat is " << f_condition_mat[0] << std::endl;
 	//Restab_n = zeros(case_num, 17);
 	std::vector<std::vector<int> > Restab_n(case_num, std::vector<int>(17,0));
 
@@ -148,8 +149,10 @@ int main() {
 		}
 		std::cout << std::endl;
 	}
-//graveyard
-/*		char del = ',';
+
+#pragma region graveyard
+/*	//graveyard
+		char del = ',';
 		for (const auto substr : split(f_condition_mat[i], del)) {
 			std::cout << "substr is " << substr << std::endl;
 			Restab_n.at(i).at(j) = std::stoi(substr);
@@ -161,6 +164,47 @@ int main() {
 		//std::cout << Restab_n.at(i).at(j) << " ";
 		std::cout << std::endl;
 	}*/
+#pragma endregion
+	// *********************************************************
+	//--- Single Mode ------------------------------------------
+	std::map<std::string, std::string> f_condition;
+	if (singlemode == "run" && batchmode == "off") {
+		// Call main only one time
+		
+		std::string f_condition_args[23];
+		char del = ',';
+		int i=0;
+		for (const auto substr : split(FCHead, del)) {
+			std::cout << "substr is " << substr << std::endl;
+			f_condition_args[i] = substr;
+			//f_condition[substr] = substr;
+			i++;
+		}
+		i = 0;
+		for (const auto substr : split(f_condition_mat[0], del)) {
+			std::cout << "f substr is " << substr << std::endl;
+			f_condition[f_condition_args[i]] = substr;
+			i++;
+		}
+
+		
+		double Alt_trim = std::stod(f_condition["altitude"]);
+		if (Block3 == "run") {
+			[X_trim, UX_trim, Dout] = main(f_condition);
+		}
+			
+			// Simulation result
+/*			Doutname = f_condition.Dout_name(1);
+			Douttab = array2table(Dout, 'Variablenames', { 'Time','Alpha','Beta','Phi','Theta','Psi','P','Q','R','VTAS', ...
+				  'Ub','Vb','Wb','Nx','Ny','Nz','North_Dis','East_dis','Altitude','Mach', 'Dt_trim','De_trim','Dr_trim','Da_trim' });
+			// Save simulation result
+			writetable(Douttab, strcat('C:\Users\81905\Documents\MATLAB\sixdof_flatspin_ver3.0\Results\',Doutname{1},'.csv'))
+			// Trim results
+		elseif Block3 == "off"
+			[X_trim, UX_trim, ~] = main(f_condition);
+		end*/
+
+	}
 	
 
 	ofs.close();
