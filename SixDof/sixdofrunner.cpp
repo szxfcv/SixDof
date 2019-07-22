@@ -190,7 +190,9 @@ int main() {
 		
 		double Alt_trim = std::stod(f_condition["altitude"]);
 		if (Block3 == "run") {
-			[X_trim, UX_trim, Dout] = main(f_condition);
+			//[X_trim, UX_trim, Dout] = main(f_condition);
+			//戻り値が3つもあるのでポインタを渡してそこに格納させる。
+			TrimMain(f_condition, Xtrim, UX_trim, Dout);
 		}
 			
 			// Simulation result
