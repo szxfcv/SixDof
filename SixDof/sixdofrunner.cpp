@@ -187,7 +187,10 @@ int main() {
 			i++;
 		}
 
-		
+		std::vector<double> Xtrim(15);
+		std::vector<double> UX_trim(15);
+
+
 		double Alt_trim = std::stod(f_condition["altitude"]);
 		if (Block3 == "run") {
 			//[X_trim, UX_trim, Dout] = main(f_condition);
